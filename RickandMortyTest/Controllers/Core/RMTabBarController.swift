@@ -7,6 +7,7 @@
 
 import UIKit
 
+/// Controller que administra las pestañas y sus respectivas Views
 class RMTabBarController: UITabBarController {
 
     override func viewDidLoad() {
