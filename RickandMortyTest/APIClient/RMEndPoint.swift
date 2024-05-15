@@ -9,7 +9,7 @@ import Foundation
 
 /// Api endpoint para cada llamado 
 @frozen enum RMEndPoint: String {
-    case character = ""
-    case location = "a"
-    case episode = "s"
+    case character = "character"
+    case location = "location"
+    case episode = "episode"
 }

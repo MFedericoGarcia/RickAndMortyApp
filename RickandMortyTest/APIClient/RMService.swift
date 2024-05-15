@@ -20,7 +20,15 @@ final class RMService {
     /// - Parameters:
     ///   - request: Requerir instancia
     ///   - completion: callback con datos o error 
-    public func execute (_ request: RMRequest, completion: @escaping() -> Void) {
+    public func execute<T: Codable> (_ request: RMRequest, expecting type: T.Type, completion: @escaping(Result<T, Error>) -> Void) {
         
     }
+    
+    public func execute2<T: Codable> (request: RMRequest) async throws -> T {
+        
+        return []
+    }
+    
+    
+    
 }
