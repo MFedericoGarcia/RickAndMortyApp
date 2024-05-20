@@ -12,23 +12,43 @@ final class RMService {
     
     /// Instancia Singleton Comprartida
     static let shared = RMService()
-    
+    let decoder = JSONDecoder()
     /// Constructor Privado
-    private init() {}
+    private init() {
+        decoder.keyDecodingStrategy = .convertFromSnakeCase
+    }
     
     /// Enviar call a Rick and Morty API
     /// - Parameters:
     ///   - request: Requerir instancia
     ///   - completion: callback con datos o error 
-    public func execute<T: Codable> (_ request: RMRequest, expecting type: T.Type, completion: @escaping(Result<T, Error>) -> Void) {
+   
+    public func execute<T: Codable> (request: RMRequest) async throws -> T {
         
+        guard let urlRequest = self.request(from: request) else {throw RMServiceErrors.failedToCreateRequest}
+        guard let url = urlRequest.url else {throw RMServiceErrors.failedToCreateRequest}
+        
+        let (data, _) = try await URLSession.shared.data(from: url)
+            
+            do{
+                return try decoder.decode( T.self, from: data)
+            } catch {
+                throw RMServiceErrors.failedToGetData
+            }
+            
     }
     
-    public func execute2<T: Codable> (request: RMRequest) async throws -> T {
-        
-        return []
-    }
     
+    // MARK: - Private
+    
+    private func request(from rmRequest: RMRequest) -> URLRequest? {
+        guard let url = rmRequest.url else { return nil }
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = rmRequest.httpMethod
+        
+        return request
+    }
     
     
 }
