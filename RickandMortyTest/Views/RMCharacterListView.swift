@@ -37,7 +37,7 @@ final class RMCharacterListView: UIView {
     }
     
     private func configure() {
-        addSubviews(spinner, collectionView)
+        addSubviews(collectionView, spinner)
         
         NSLayoutConstraint.activate([
             spinner.heightAnchor.constraint(equalToConstant: 100),
@@ -79,6 +79,15 @@ extension RMCharacterListView: RMCharacterListViewVMDelegate {
        
     }
     
-    
+    func didLoadMoreCharacters(with newIndexPaths: [IndexPath]) {
+       
+        Task{
+            do {
+                collectionView.performBatchUpdates {
+                    collectionView.insertItems(at: newIndexPaths)
+                }
+            }
+        }
+    }
     
 }

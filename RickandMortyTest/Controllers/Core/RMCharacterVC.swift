@@ -15,17 +15,19 @@ final class RMCharacterVC: UIViewController, RMCharacterListViewDelegate {
         super.viewDidLoad()
         configure()
         configureCharacterListView()
+        navigationItem.largeTitleDisplayMode = .automatic
     }
     
     private func configure() {
         view.backgroundColor = .systemBackground
         title = "Characters"
+
     }
+    
     
     
     private func configureCharacterListView() {
         characterListView.delegate = self
-        
         view.addSubviews(characterListView)
         
         NSLayoutConstraint.activate([

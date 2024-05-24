@@ -13,7 +13,7 @@ class RMLayoutFlow: UICollectionViewFlowLayout {
     override init() {
         super.init()
         self.scrollDirection = .vertical
-        self.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 0, right: 10)
+        self.sectionInset = UIEdgeInsets(top: 0, left: 10, bottom: 10, right: 10)
     }
     
     required init?(coder: NSCoder) {
