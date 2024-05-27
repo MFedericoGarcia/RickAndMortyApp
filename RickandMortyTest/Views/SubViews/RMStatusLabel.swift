@@ -9,9 +9,10 @@ import UIKit
 
 class RMStatusLabel: UILabel {
 
-    override init(frame: CGRect) {
+    init(frame: CGRect, title: String = "") {
         super.init(frame: frame)
         textColor = .secondaryLabel
+        text = title
         font = .systemFont(ofSize: 16, weight: .regular)
         translatesAutoresizingMaskIntoConstraints = false
     }

@@ -9,10 +9,11 @@ import UIKit
 
 class RMNameLabel: UILabel {
 
-    override init(frame: CGRect) {
+    init(frame: CGRect, title: String = "") {
         super.init(frame: frame)
         textColor = .label
         font = .systemFont(ofSize: 18, weight: .medium)
+        self.text = title
         translatesAutoresizingMaskIntoConstraints = false
     }
     

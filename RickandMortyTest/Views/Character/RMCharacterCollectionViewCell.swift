@@ -33,6 +33,8 @@ final class RMCharacterCollectionViewCell: UICollectionViewCell {
         contentView.layer.shadowColor = UIColor.secondaryLabel.cgColor
         contentView.layer.shadowOffset = CGSize(width: -4, height: 4)
         contentView.layer.shadowOpacity = 0.4
+        contentView.layer.masksToBounds = true
+        
     }
     
     private func configureCellConstraints() {
