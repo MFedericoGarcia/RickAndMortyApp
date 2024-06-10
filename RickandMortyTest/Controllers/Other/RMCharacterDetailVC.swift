@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RMCharacterDetailVC: UIViewController {
+class RMCharacterDetailVC: UIViewController{
     
     private var viewModel: RMCharacterDetailViewVM
     private let detailView: RMCharacterDetailView
@@ -49,6 +49,8 @@ class RMCharacterDetailVC: UIViewController {
     @objc
     private func didTapShare(){
     }
+    
+    
     
 }
 

@@ -15,6 +15,7 @@ final class RMCharacterVC: UIViewController, RMCharacterListViewDelegate {
         super.viewDidLoad()
         configure()
         configureCharacterListView()
+        addSearchButton()
         navigationItem.largeTitleDisplayMode = .automatic
     }
     
@@ -47,6 +48,16 @@ final class RMCharacterVC: UIViewController, RMCharacterListViewDelegate {
         navigationController?.pushViewController(detailVC, animated: true)
         
         
+    }
+    
+    private func addSearchButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearch))
+    }
+    
+    @objc func didTapSearch() {
+        let vc = RMSearchVC(config: RMSearchVC.Config(type: .character))
+        vc.navigationItem.largeTitleDisplayMode = .never
+        navigationController?.pushViewController(vc, animated: true)
     }
 
 }

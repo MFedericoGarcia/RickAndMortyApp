@@ -12,6 +12,9 @@ final class RMService {
     
     /// Instancia Singleton Comprartida
     static let shared = RMService()
+    
+    private let cacheManager = RMAPICache()
+    
     let decoder = JSONDecoder()
     /// Constructor Privado
     private init() {
@@ -25,13 +28,25 @@ final class RMService {
    
     public func execute<T: Codable> (request: RMRequest) async throws -> T {
         
+        if let cacheData = cacheManager.cachedResponse(for: request.endpoint, url: request.url){
+            do{
+                print("Data loaded from cache")
+                return try decoder.decode( T.self, from: cacheData)
+            } catch {
+                throw RMServiceErrors.failedToGetData
+            }
+        }
+        
+        
         guard let urlRequest = self.request(from: request) else {throw RMServiceErrors.failedToCreateRequest}
         guard let url = urlRequest.url else {throw RMServiceErrors.failedToCreateRequest}
         
         let (data, _) = try await URLSession.shared.data(from: url)
             
             do{
-                return try decoder.decode( T.self, from: data)
+                let result = try decoder.decode( T.self, from: data)
+                self.cacheManager.setCache(for: request.endpoint, url: request.url, data: data)
+                return result
             } catch {
                 throw RMServiceErrors.failedToGetData
             }

@@ -10,12 +10,12 @@ import UIKit
 class RMLayoutCompositional: UICollectionViewCompositionalLayout {
     
     
-    init(with viewModel: RMCharacterDetailViewVM) {
+    init( withCharacter viewModel: RMCharacterDetailViewVM) {
         super.init { sectionIndex, _ in
             
             let sectionsTypes = viewModel.sections
             switch sectionsTypes[sectionIndex] {
-            
+                
             case .photo:
                 return viewModel.createPhotoSectionLayout()
                 
@@ -26,6 +26,24 @@ class RMLayoutCompositional: UICollectionViewCompositionalLayout {
                 return viewModel.createEpisodeSectionLayout()
             }
         }
+    }
+    
+    
+    init( withEpisode viewModel: RMEpisodeDetailViewVM) {
+        
+        super.init { sectionIndex, _ in
+            let sectionsTypes = viewModel.cellViewModels
+            
+            switch sectionsTypes[sectionIndex] {
+                
+            case .information:
+                return viewModel.createInfoSectionLayout()
+                
+            case .characters:
+                return viewModel.createEpisodeSectionLayout()
+            }
+        }
+        
     }
     
     required init?(coder: NSCoder) {

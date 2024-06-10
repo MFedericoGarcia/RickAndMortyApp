@@ -14,7 +14,7 @@ class RMCharacterDetailCollectionVIew: UICollectionView {
    
     init(frame: CGRect, collectionViewLayout layout: UICollectionViewLayout, viewModel: RMCharacterDetailViewVM) {
         self.viewModel = viewModel
-        self.layout2 = RMLayoutCompositional(with: viewModel)
+        self.layout2 = RMLayoutCompositional(withCharacter: viewModel)
         super.init(frame: frame, collectionViewLayout: layout2)
         configure()
 

@@ -17,6 +17,15 @@ final class RMLocationVC: UIViewController {
     private func configure() {
         view.backgroundColor = .systemBackground
         title = "Location"
+        addSearchButton()
+    }
+    
+    private func addSearchButton() {
+        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .search, target: self, action: #selector(didTapSearch))
+    }
+    
+    @objc func didTapSearch() {
+        
     }
 
 }

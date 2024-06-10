@@ -31,15 +31,14 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
         contentView.backgroundColor = .secondarySystemBackground
         contentView.layer.cornerRadius = 8
         contentView.layer.borderWidth = 2
-        contentView.layer.borderColor = UIColor.secondaryLabel.cgColor
         contentView.addSubviews(seasonLabel, nameLabel, airDateLabel)
         setUpConstraints()
     }
     
     private func setUpConstraints() {
         NSLayoutConstraint.activate([
-            
-            seasonLabel.topAnchor.constraint(equalTo: contentView.topAnchor),
+
+            seasonLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 5),
             seasonLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             seasonLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             seasonLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.3),
@@ -53,7 +52,7 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
             airDateLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 10),
             airDateLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -10),
             airDateLabel.heightAnchor.constraint(equalTo: contentView.heightAnchor, multiplier: 0.3),
-        
+                    
         ])
     }
     
@@ -67,9 +66,6 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
     
     func configure(with viewModel: RMCharacterEpisodeCollectionViewCellVM) {
          viewModel.registerForData { data in
-            
-            print(String(describing: data))
-            
              Task {
                  do {
                      self.nameLabel.text = data.name
@@ -79,6 +75,9 @@ final class RMCharacterEpisodeCollectionViewCell: UICollectionViewCell {
              }
 
         }
+        
         viewModel.fetchEpisode()
+        contentView.layer.borderColor = viewModel.borderColor.cgColor
+
     }
 }

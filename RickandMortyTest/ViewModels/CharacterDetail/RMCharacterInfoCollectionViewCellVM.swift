@@ -11,7 +11,7 @@ final class RMCharacterInfoCollectionViewCellVM {
     private var value: String
     private let type: `Type`
     
-    var dateFormatter: DateFormatter = {
+    static let dateFormatter: DateFormatter = {
         var formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss.SSSSZ"
         return formatter
@@ -24,7 +24,7 @@ final class RMCharacterInfoCollectionViewCellVM {
     public var displayValue: String {
         if value.isEmpty {return "None"}
         
-        if let date = self.dateFormatter.date(from: value), type == .created {
+        if let date = RMCharacterInfoCollectionViewCellVM.dateFormatter.date(from: value), type == .created {
             value = date.convertToMonthYearFormat()
             return value
         }
