@@ -70,6 +70,9 @@
 		B7ED4B102C120A9600A2FAFC /* RMSettingsViewVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ED4B0F2C120A9600A2FAFC /* RMSettingsViewVM.swift */; };
 		B7ED4B122C120AA700A2FAFC /* RMSettingsCellVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ED4B112C120AA700A2FAFC /* RMSettingsCellVM.swift */; };
 		B7ED4B152C12116800A2FAFC /* RMSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ED4B142C12116800A2FAFC /* RMSettingsView.swift */; };
+		B7ED4B182C1779C500A2FAFC /* RMLocationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ED4B172C1779C500A2FAFC /* RMLocationView.swift */; };
+		B7ED4B1A2C177A5400A2FAFC /* RMLocationTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ED4B192C177A5400A2FAFC /* RMLocationTableView.swift */; };
+		B7ED4B1C2C177F4100A2FAFC /* RMLocationViewVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = B7ED4B1B2C177F4100A2FAFC /* RMLocationViewVM.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -138,6 +141,9 @@
 		B7ED4B0F2C120A9600A2FAFC /* RMSettingsViewVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSettingsViewVM.swift; sourceTree = "<group>"; };
 		B7ED4B112C120AA700A2FAFC /* RMSettingsCellVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSettingsCellVM.swift; sourceTree = "<group>"; };
 		B7ED4B142C12116800A2FAFC /* RMSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMSettingsView.swift; sourceTree = "<group>"; };
+		B7ED4B172C1779C500A2FAFC /* RMLocationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMLocationView.swift; sourceTree = "<group>"; };
+		B7ED4B192C177A5400A2FAFC /* RMLocationTableView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMLocationTableView.swift; sourceTree = "<group>"; };
+		B7ED4B1B2C177F4100A2FAFC /* RMLocationViewVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RMLocationViewVM.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -223,6 +229,7 @@
 				B748C70D2C04CBD4002D72EA /* Character */,
 				B748C7062C04CAF3002D72EA /* CharacterDetail */,
 				B748C71B2C07B479002D72EA /* RMEpisodeListViewVM.swift */,
+				B7ED4B1B2C177F4100A2FAFC /* RMLocationViewVM.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -248,11 +255,12 @@
 		B748C68E2BF4FEFE002D72EA /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				B7ED4B132C12114000A2FAFC /* SwiftUI */,
-				B748C7232C0A601F002D72EA /* EpisodeDetail */,
+				B7ED4B162C17798E00A2FAFC /* Location */,
 				B748C7182C07B12F002D72EA /* Episode */,
 				B748C6FF2C04CA60002D72EA /* Character */,
 				B748C6FE2C04CA46002D72EA /* CharacterDetail */,
+				B748C7232C0A601F002D72EA /* EpisodeDetail */,
+				B7ED4B132C12114000A2FAFC /* SwiftUI */,
 				B748C6D62BF6A440002D72EA /* SubViews */,
 			);
 			path = Views;
@@ -323,6 +331,7 @@
 				B748C6F62C0134F3002D72EA /* RMCharacterDetailCollectionVIew.swift */,
 				B748C6FC2C019111002D72EA /* RMLayoutCompositional.swift */,
 				B748C71F2C07BB46002D72EA /* RMEpisodeListCollectionView.swift */,
+				B7ED4B192C177A5400A2FAFC /* RMLocationTableView.swift */,
 			);
 			path = SubViews;
 			sourceTree = "<group>";
@@ -422,6 +431,14 @@
 			path = SwiftUI;
 			sourceTree = "<group>";
 		};
+		B7ED4B162C17798E00A2FAFC /* Location */ = {
+			isa = PBXGroup;
+			children = (
+				B7ED4B172C1779C500A2FAFC /* RMLocationView.swift */,
+			);
+			path = Location;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -496,8 +513,10 @@
 				B748C7032C04CAAC002D72EA /* RMCharacterInfoCollectionViewCell.swift in Sources */,
 				B748C6B92BF6755E002D72EA /* RMCharacterListView.swift in Sources */,
 				B748C7272C0A6289002D72EA /* RMEpisodeInfoCollectionViewCell.swift in Sources */,
+				B7ED4B1A2C177A5400A2FAFC /* RMLocationTableView.swift in Sources */,
 				B7ED4B102C120A9600A2FAFC /* RMSettingsViewVM.swift in Sources */,
 				B748C7202C07BB46002D72EA /* RMEpisodeListCollectionView.swift in Sources */,
+				B7ED4B1C2C177F4100A2FAFC /* RMLocationViewVM.swift in Sources */,
 				B748C6B72BF674C6002D72EA /* RMCharacterListViewVM.swift in Sources */,
 				B748C72A2C0A649D002D72EA /* RMEpisodeInfoCollectionViewCellVM.swift in Sources */,
 				B748C7222C08E57E002D72EA /* RMSearchVC.swift in Sources */,
@@ -536,6 +555,7 @@
 				B748C7152C07874A002D72EA /* RMEpisodeDetailViewVM.swift in Sources */,
 				B748C7252C0A6068002D72EA /* RMEpisodeDetailCollectionView.swift in Sources */,
 				B748C6992BF5002F002D72EA /* RMLocation.swift in Sources */,
+				B7ED4B182C1779C500A2FAFC /* RMLocationView.swift in Sources */,
 				B748C70C2C04CB54002D72EA /* RMCharacterEpisodeCollectionViewCellVM.swift in Sources */,
 				B748C6AF2BF5443A002D72EA /* RMCharacterGender.swift in Sources */,
 				B748C6932BF4FFFC002D72EA /* RMEpisodeVC.swift in Sources */,
