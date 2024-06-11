@@ -29,6 +29,7 @@ final class RMLocationView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         addSubviews(tableView, spinner)
         addConstraints()
+        configureTable()
         
     }
     
@@ -51,8 +52,40 @@ final class RMLocationView: UIView {
         ])
     }
     
+    private func configureTable() {
+        tableView.delegate = self
+        tableView.dataSource = self
+    }
+    
     public func configure( with viewModel: RMLocationViewVM) {
         self.viewModel = viewModel
     }
    
+}
+
+extension RMLocationView: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+    }
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return viewModel?.cellViewModels.count ?? 0
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        guard let cellVMs = viewModel?.cellViewModels else { fatalError() }
+        
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: RMLocationTableViewCell.cellIdentifier, for: indexPath) as? RMLocationTableViewCell else {
+            fatalError()
+        }
+        let cellVM = cellVMs[indexPath.row]
+        var config = cell.defaultContentConfiguration()
+        config.text = cellVM.name
+        cell.contentConfiguration = config
+        return cell
+    }
+    
+    
 }

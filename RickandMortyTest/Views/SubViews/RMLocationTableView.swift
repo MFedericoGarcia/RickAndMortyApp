@@ -12,7 +12,7 @@ class RMLocationTableView: UITableView {
     override init(frame: CGRect, style: UITableView.Style) {
         super.init(frame: frame, style: style)
         translatesAutoresizingMaskIntoConstraints = false
-        register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        register(RMLocationTableViewCell.self, forCellReuseIdentifier: RMLocationTableViewCell.cellIdentifier)
         isHidden = true
         alpha = 0
     }

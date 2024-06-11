@@ -7,15 +7,20 @@
 
 import UIKit
 
-final class RMLocationVC: UIViewController {
 
+
+final class RMLocationVC: UIViewController, RMLocationViewVMDelegate{
+    
     private let primaryView = RMLocationView(frame: .zero)
+    private let viewModel = RMLocationViewVM()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
         addConstraints()
         addSearchButton()
+        viewModel.delegate = self
+        viewModel.fetchLocations()
     }
     
     private func configure() {
@@ -41,5 +46,12 @@ final class RMLocationVC: UIViewController {
     @objc func didTapSearch() {
         
     }
-
+    
+    //MARK: - LocationVM Delegate
+    
+    func didFetchInitialLocations() {
+        primaryView.configure(with: viewModel)
+    }
 }
+
+
