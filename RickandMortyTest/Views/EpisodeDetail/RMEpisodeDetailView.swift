@@ -29,6 +29,7 @@ final class RMEpisodeDetailView: UIView {
     }
     private let spinner = RMSpinner(frame: .zero)
     private var collectionView: RMEpisodeDetailCollectionView
+    
     // MARK: - Init
     
     init(frame: CGRect, viewModel: RMEpisodeDetailViewVM) {

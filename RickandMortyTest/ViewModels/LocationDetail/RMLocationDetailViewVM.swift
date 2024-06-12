@@ -1,40 +1,42 @@
 //
-//  RMEpisodeDetailViewVM.swift
+//  RMLocationDetailViewVM.swift
 //  RickandMortyTest
 //
-//  Created by Fede Garcia on 29/05/2024.
+//  Created by Fede Garcia on 12/06/2024.
 //
+
+import Foundation
 
 import UIKit
 
 
 
-protocol RMEpisodeDetailViewVMDelegate: AnyObject {
-    func didFetchEpisodeDetails()
+protocol RMLocationDetailViewVMDelegate: AnyObject {
+    func didFetchLocationDetails()
 }
 
-class RMEpisodeDetailViewVM {
+class RMLocationDetailViewVM {
     
     // MARK: - Variables
     
     private let endpointUrl: URL?
-    private var dataTuple: (episode: RMEpisode, characters: [RMCharacter])? {
+    private var dataTuple: (location: RMLocation, characters: [RMCharacter])? {
         didSet {
             createCellViewModels()
-            delegate?.didFetchEpisodeDetails()
+            delegate?.didFetchLocationDetails()
         }
     }
     
     
     enum SectionType {
-        case information(viewModels: [RMEpisodeInfoCollectionViewCellVM])
+        case information(viewModels: [RMLocationInfoCollectionViewCellVM])
         case characters(viewModels: [RMCharacterCollectionViewCellVM])
     }
     
     public private(set) var cellViewModels: [SectionType] = []
    
     
-    public weak var delegate: RMEpisodeDetailViewVMDelegate?
+    public weak var delegate: RMLocationDetailViewVMDelegate?
     
     // MARK: - Init
     
@@ -49,15 +51,15 @@ class RMEpisodeDetailViewVM {
     
     // MARK: - Public
     
-    public func fetchEpisodeData() {
+    public func fetchLocationData() {
         guard let endpointUrl = endpointUrl else { return }
         guard let request = RMRequest(url: endpointUrl) else {
             return
         }
         Task {
             do{
-                let response: RMEpisode = try await RMService.shared.execute(request: request)
-                await fetchRelatedCharacters(episode: response)
+                let response: RMLocation = try await RMService.shared.execute(request: request)
+                await fetchRelatedCharacters(location: response)
             } catch {
                 print("Error")
             }
@@ -67,12 +69,12 @@ class RMEpisodeDetailViewVM {
     
     // MARK: - Private
    
-    private func fetchRelatedCharacters(episode: RMEpisode) async {
-        
-        let characterUrl: [URL] = episode.characters.compactMap ({
+    private func fetchRelatedCharacters(location: RMLocation) async {
+        let characterUrl: [URL] = location.residents.compactMap ({
             return URL(string: $0)
         })
         let requests: [RMRequest] = characterUrl.compactMap({
+
             return RMRequest(url: $0)
         })
         
@@ -82,7 +84,7 @@ class RMEpisodeDetailViewVM {
             do {
                 let result: RMCharacter = try await RMService.shared.execute(request: request)
                 characters.append(result)
-                dataTuple = (episode: episode, characters: characters)
+                dataTuple = (location: location, characters: characters)
             } catch {
                 return
             }
@@ -92,21 +94,18 @@ class RMEpisodeDetailViewVM {
     
     private func createCellViewModels() {
         guard let dataTuple = dataTuple else { return }
-        let episode = dataTuple.episode
+        let location = dataTuple.location
         let characters = dataTuple.characters
         
-    
-        guard let createdDate = RMCharacterInfoCollectionViewCellVM.dateFormatter.date(from: episode.created) else { return print("NO ANDA") }
+        guard let createdDate = RMCharacterInfoCollectionViewCellVM.dateFormatter.date(from: location.created) else { return print("NO ANDA") }
         let createdString = createdDate.convertToMonthYearFormat()
-
-        
 
         
         cellViewModels = [
             .information(viewModels: [
-                .init(title: "Episode Name", value: episode.name),
-                .init(title: "Air Date ", value: episode.airDate),
-                .init(title: "Episode", value: episode.episode),
+                .init(title: "Location Name", value: location.name),
+                .init(title: "Type ", value: location.type),
+                .init(title: "Dimension", value: location.dimension),
                 .init(title: "Created", value: createdString),
             ]),
             .characters(viewModels: characters.compactMap({ character in
@@ -120,7 +119,7 @@ class RMEpisodeDetailViewVM {
     
 }
 
-extension RMEpisodeDetailViewVM {
+extension RMLocationDetailViewVM {
     
     
     public func createInfoSectionLayout() -> NSCollectionLayoutSection {

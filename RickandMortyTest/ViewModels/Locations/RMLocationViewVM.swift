@@ -14,6 +14,7 @@ protocol RMLocationViewVMDelegate: AnyObject {
 final class RMLocationViewVM {
     
     weak var delegate: RMLocationViewVMDelegate?
+    
     private var locations: [RMLocation] = [] {
         didSet {
             for location in locations {
@@ -41,6 +42,13 @@ final class RMLocationViewVM {
             locations = model.results
         }
         delegate?.didFetchInitialLocations()
+    }
+    
+    public func location(at index: Int) -> RMLocation? {
+        guard index < locations.count, index >= 0 else {
+            return nil
+        }
+        return self.locations[index]
     }
     
     private var hasMoreResults: Bool {

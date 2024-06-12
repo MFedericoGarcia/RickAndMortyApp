@@ -77,7 +77,6 @@ extension RMEpisodeListView: RMEpisodeListViewVMDelegate {
     
     func didLoadInitialEpisodes() {
     
-        print("ACA ANDA")
         DispatchQueue.main.async {
             self.collectionView.reloadData()
             self.spinner.stopAnimating()

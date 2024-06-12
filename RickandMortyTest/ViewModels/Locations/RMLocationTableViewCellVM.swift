@@ -12,6 +12,8 @@ struct RMLocationTableViewCellVM: Hashable, Equatable{
     
     private let location: RMLocation
     
+    
+    
     init(location: RMLocation) {
         self.location = location
     }
@@ -20,7 +22,7 @@ struct RMLocationTableViewCellVM: Hashable, Equatable{
         return location.name
     }
     public var type: String {
-        return location.type
+        return "Type: \(location.type)"
     }
     public var dimension: String {
         return location.dimension

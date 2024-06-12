@@ -30,7 +30,6 @@ final class RMService {
         
         if let cacheData = cacheManager.cachedResponse(for: request.endpoint, url: request.url){
             do{
-                print("Data loaded from cache")
                 return try decoder.decode( T.self, from: cacheData)
             } catch {
                 throw RMServiceErrors.failedToGetData

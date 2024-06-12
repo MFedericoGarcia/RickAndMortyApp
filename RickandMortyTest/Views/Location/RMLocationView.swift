@@ -7,7 +7,13 @@
 
 import UIKit
 
+protocol RMLocationViewDelegate: AnyObject {
+    func rmLocationView( _ locationView: RMLocationView, didSelect location: RMLocation )
+}
+
 final class RMLocationView: UIView {
+    
+    public weak var delegate: RMLocationViewDelegate?
     
     let tableView = RMLocationTableView(frame: .zero, style: .plain)
     let spinner = RMSpinner(frame: .zero)
@@ -67,6 +73,10 @@ extension RMLocationView: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
+        guard let locationModel = viewModel?.location(at: indexPath.row) else {
+            return
+        }
+        delegate?.rmLocationView(self, didSelect: locationModel)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -81,9 +91,14 @@ extension RMLocationView: UITableViewDelegate, UITableViewDataSource {
             fatalError()
         }
         let cellVM = cellVMs[indexPath.row]
-        var config = cell.defaultContentConfiguration()
-        config.text = cellVM.name
-        cell.contentConfiguration = config
+        
+        cell.configure(with: cellVM)
+        
+//        var config = cell.defaultContentConfiguration()
+//        config.text = cellVM.name
+//        cell.contentConfiguration = config
+        
+        
         return cell
     }
     

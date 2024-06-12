@@ -28,6 +28,22 @@ class RMLayoutCompositional: UICollectionViewCompositionalLayout {
         }
     }
     
+    init( withLocation viewModel: RMLocationDetailViewVM) {
+        super.init { sectionIndex, _ in
+            
+            let sectionsTypes = viewModel.cellViewModels
+
+            switch sectionsTypes[sectionIndex] {
+                
+            case .information:
+                return viewModel.createInfoSectionLayout()
+                
+            case .characters:
+                return viewModel.createEpisodeSectionLayout()
+            }
+        }
+    }
+    
     
     init( withEpisode viewModel: RMEpisodeDetailViewVM) {
         
