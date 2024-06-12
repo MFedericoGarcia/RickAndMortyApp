@@ -14,21 +14,42 @@ final class RMSearchView: UIView {
     // MARK: - Subviews
     
     
+    // SearchInputView
+    
+    private let noResultsView = RMNoSearchResultView()
+    
     // MARK: - Init
     
     init(frame: CGRect, viewModel: RMSearchViewVM) {
+        
         self.viewModel = viewModel
         super.init(frame: frame)
-        backgroundColor = .systemRed
-        translatesAutoresizingMaskIntoConstraints = false
+        
+        configureUI()
     }
     
     required init?(coder: NSCoder) {
         fatalError()
     }
+    
+    
+    private func configureUI() {
+        
+        backgroundColor = .systemBackground
+        translatesAutoresizingMaskIntoConstraints = false
+        addSubviews(noResultsView)
+        
+        NSLayoutConstraint.activate([
+            noResultsView.widthAnchor.constraint(equalToConstant: 150),
+            noResultsView.heightAnchor.constraint(equalToConstant: 150),
+            noResultsView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            noResultsView.centerYAnchor.constraint(equalTo: centerYAnchor),
+        ])
+    }
+    
 }
 
-// MARK: - CollectionView
+    // MARK: - CollectionView
 
 extension RMSearchView: UICollectionViewDelegate, UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

@@ -19,6 +19,7 @@ enum SFSymbols {
     static let contactUs = UIImage(systemName: "paperplane")
     static let viewSeries = UIImage(systemName: "tv.fill")
     static let viewCode = UIImage(systemName: "hammer.fill")
+    static let noResults = UIImage(systemName: "magnifyingglass.circle")
 
     
 }
