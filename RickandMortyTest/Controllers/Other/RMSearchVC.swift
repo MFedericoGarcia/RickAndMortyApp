@@ -12,7 +12,7 @@ import UIKit
 class RMSearchVC: UIViewController {
     
     struct Config {
-        enum `Type` {
+        enum tipo {
             case character
             case episode
             case location
@@ -29,7 +29,7 @@ class RMSearchVC: UIViewController {
                 }
             }
         }
-        let type: `Type`
+        let type: tipo
     }
     private let viewModel: RMSearchViewVM
     private let searchView: RMSearchView
@@ -47,10 +47,18 @@ class RMSearchVC: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Search", style: .done, target: self, action: #selector(didTapExecuteSearch))
+        searchView.delegate = self
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        searchView.presentKeyboard()
     }
     
     // MARK: - Private Funcs
@@ -76,4 +84,21 @@ class RMSearchVC: UIViewController {
     
     
 
+}
+
+// MARK: - RMSearchViewDelegate
+
+extension RMSearchVC: RMSearchViewDelegate {
+    func rmSearchView(_ searchView: RMSearchView, didSelectOption option: RMSearchInputViewVM.DynamicOption) {
+        let vc = RMSearchOptionVC(option: option) {[weak self]selection in
+            DispatchQueue.main.async {
+                self?.viewModel.set(value: selection, for: option)
+            }
+        }
+        vc.sheetPresentationController?.detents = [.medium()]
+        vc.sheetPresentationController?.prefersGrabberVisible = true
+        present(vc, animated: true)
+    }
+    
+    
 }
