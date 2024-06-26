@@ -47,7 +47,7 @@ final class RMService {
                 self.cacheManager.setCache(for: request.endpoint, url: request.url, data: data)
                 return result
             } catch {
-                throw RMServiceErrors.failedToGetData
+                throw error
             }
             
     }

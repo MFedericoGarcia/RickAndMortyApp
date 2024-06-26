@@ -13,6 +13,7 @@ final class RMSearchViewVM {
     private var optionMap: [RMSearchInputViewVM.DynamicOption: String] = [:]
     private var searchText = ""
     private var searchResoultHandler: ((RMSearchResultVM) -> Void)?
+    private var noResoultsHandler: (() -> Void)?
     private var optionMapUpdateBlock: (((RMSearchInputViewVM.DynamicOption, String)) -> Void)?
     
    
@@ -27,6 +28,9 @@ final class RMSearchViewVM {
     
     public func registerSearchResoultHandler(_ block: @escaping (RMSearchResultVM) -> Void) {
         self.searchResoultHandler = block
+    }
+    public func registerNoResoultsHandler(_ block: @escaping () -> Void) {
+        self.noResoultsHandler = block
     }
     
     public func set(value: String, for option: RMSearchInputViewVM.DynamicOption) {
@@ -59,18 +63,28 @@ final class RMSearchViewVM {
         Task {
             switch config.type.endpoint {
             case .character:
-                let response: RMGetAllCharactersResponse = try await RMService.shared.execute(request: request)
-                processSearchResults(model: response)
+                do {
+                    let response: RMGetAllCharactersResponse = try await RMService.shared.execute(request: request)
+                    processSearchResults(model: response)
+                } catch {
+                    handleNoResults()
+                }
             case .episode:
-                let response: RMGetAllEpisodesResponse = try await RMService.shared.execute(request: request)
-                processSearchResults(model: response)
+                do {
+                    let response: RMGetAllEpisodesResponse = try await RMService.shared.execute(request: request)
+                    processSearchResults(model: response)
+                } catch {
+                    handleNoResults()
+                }
             case .location:
-                let response: RMGetAllLocationsResponse = try await RMService.shared.execute(request: request)
-                processSearchResults(model: response)
+                do {
+                    let response: RMGetAllLocationsResponse = try await RMService.shared.execute(request: request)
+                    processSearchResults(model: response)
+                } catch {
+                    handleNoResults()
+                }
             }
         }
-        
-        
     }
     
     private func processSearchResults(model: Codable) {
@@ -94,7 +108,11 @@ final class RMSearchViewVM {
         if let results = resultsVM {
             self.searchResoultHandler?(results)
         } else {
-            
+            handleNoResults()
         }
+    }
+    
+    private func handleNoResults() {
+        noResoultsHandler?()
     }
 }
