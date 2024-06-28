@@ -15,7 +15,7 @@ class RMLocationTableView: UITableView {
         register(RMLocationTableViewCell.self, forCellReuseIdentifier: RMLocationTableViewCell.cellIdentifier)
         isHidden = true
         alpha = 0
-        backgroundColor = .cyan
+        backgroundColor = .systemBackground
     }
     
     required init?(coder: NSCoder) {

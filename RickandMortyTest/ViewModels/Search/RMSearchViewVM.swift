@@ -15,7 +15,7 @@ final class RMSearchViewVM {
     private var searchResoultHandler: ((RMSearchResultVM) -> Void)?
     private var noResoultsHandler: (() -> Void)?
     private var optionMapUpdateBlock: (((RMSearchInputViewVM.DynamicOption, String)) -> Void)?
-    
+    private var searchResultModel: Codable?
    
     
     // MARK: - Init
@@ -106,6 +106,7 @@ final class RMSearchViewVM {
         }
         
         if let results = resultsVM {
+            self.searchResultModel = model
             self.searchResoultHandler?(results)
         } else {
             handleNoResults()
@@ -114,5 +115,13 @@ final class RMSearchViewVM {
     
     private func handleNoResults() {
         noResoultsHandler?()
+    }
+    
+    public func locationSearchResult(at index: Int) -> RMLocation? {
+        guard let searchModel = searchResultModel as? RMGetAllLocationsResponse else {
+            return nil
+        }
+        
+        return searchModel.results[index]
     }
 }
