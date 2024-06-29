@@ -7,9 +7,13 @@
 
 import Foundation
 
+// MARK: - Protocol
+
 protocol RMLocationViewVMDelegate: AnyObject {
     func didFetchInitialLocations()
 }
+
+// MARK: - ViewModel
 
 final class RMLocationViewVM {
     
@@ -28,13 +32,38 @@ final class RMLocationViewVM {
         }
     }
     
+    
+    
+    
     // LOCATION INFO
     
+    private var hasMoreResults: Bool {
+        return false
+    }
+    
+    private var didFinishPagination: (() -> Void)?
+
+    
+    
     private var apiInfo: RMGetAllLocationsResponse.Info?
+    
     public private(set) var cellViewModels: [RMLocationTableViewCellVM] = []
+    public var shouldShowLoadMoreIndicator: Bool {
+        return  apiInfo?.next != nil
+    }
+    public var isLoadingMoreLocations = false
+    
+    
+    // MARK: - Init
     
     init() {}
     
+    
+    // MARK: - Public Funcs
+    
+    public func registerDidFinishPagination(_ block: @escaping() -> Void) {
+        self.didFinishPagination = block
+    }
     public func fetchLocations() {
         Task {
             let model: RMGetAllLocationsResponse = try await RMService.shared.execute(request: .listLocationsRequest)
@@ -44,6 +73,40 @@ final class RMLocationViewVM {
         delegate?.didFetchInitialLocations()
     }
     
+    public func fetchAdditionalLocations() {
+        
+        guard !isLoadingMoreLocations else {
+            return
+        }
+        isLoadingMoreLocations = true
+        guard let nextUrlString = apiInfo?.next,
+              let url = URL(string: nextUrlString) else { return }
+        
+        guard let request = RMRequest(url: url) else {
+            return
+        }
+        Task {
+            do {
+                let response: RMGetAllLocationsResponse = try await RMService.shared.execute(request: request)
+
+                let moreResults = response.results
+                
+                apiInfo = response.info
+                cellViewModels.append(contentsOf: moreResults.compactMap({
+                    return RMLocationTableViewCellVM(location: $0 )
+                }))
+                isLoadingMoreLocations = false
+                didFinishPagination?()
+                
+            } catch {
+                print(error.localizedDescription)
+                isLoadingMoreLocations = false
+
+            }
+        }
+    }
+    
+    
     public func location(at index: Int) -> RMLocation? {
         guard index < locations.count, index >= 0 else {
             return nil
@@ -51,7 +114,7 @@ final class RMLocationViewVM {
         return self.locations[index]
     }
     
-    private var hasMoreResults: Bool {
-        return false
-    }
+    // MARK: - Private Funcs
+    
+   
 }
